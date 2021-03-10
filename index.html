@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="euc-kr"/>
+	<meta name="viewport" content="initial-scale=1.0, width=device-width">
+	<title>가디언테일즈 계산기</title>
+	<meta name="google-site-verification" content="ooLB4pQ38CcjJYWQi7Jj572BpjGUEigW560OswP0u_M" />
+    <!-- 제이쿼리 모바일, 제이쿼리 라이브러리 화일 -->
+	<link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css?ver=1"/>
+	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script type="text/javascript">
+		function doDisplay()
+		{
+			var con = document.getElementById("helpbox");
+			if(con.style.display =='block')
+			{
+				con.style.display='none';
+			}
+			else
+			{
+				con.style.display = 'block';
+			}
+		}
+	</script>
+
+</head>  
+<body>
+<!-- 시작 메뉴 화면 -->
+  <div data-role="page" id="page0">
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h1>가디언테일즈 계산기</h1>
+		<a href="#page0" data-icon="home" data-iconpos="notext" class="ui-btn-right">Home</a>
+	</div>
+	<div data-role="content">
+			<!--<img style="margin: 20px auto; display: block;" src="princess.png">-->
+		<ul data-role="listview" data-inset="true">
+			<li><button id="event_calcButton">이벤트 포인트 계산기</button></li>
+			<li><button id="evolution_calcButton">진화석 계산기</button></li>
+			<li><button id="exp_calcButton">경험치 계산기</button></li>
+			<li><button id="update_listButton">서비스 업데이트 내역</button></li>
+		</ul>
+		<div>
+			<h5 style="float:right;"><a href="javascript:doDisplay();">사용시 문제가 생겼을 경우</a></h5>
+			<div id="helpbox" class="hide" style="float:right;display: none;">
+				<br>
+				문제가 있을 시 get1ucky@naver.com 으로 문제 사항을 보내주시면 감사하겠습니다.
+			</div>
+		</div>
+	</div>
+	<div data-role="footer" data-position="fixed" data-theme="b">
+		<h4>가디언테일즈를 플레이 하는데 도움되는 정보를 제공합니다.</h4>
+    </div>
+  </div>
+ </body>
+  	<script>
+		var event_calcButton = document.getElementById("event_calcButton");
+		var evolution_calcButton = document.getElementById("evolution_calcButton");
+		var update_listButton = document.getElementById("update_listButton");
+		var exp_calcButton= document.getElementById("exp_calcButton");
+
+		event_calcButton.addEventListener("click", function(){
+			
+			window.location = './event_calc';
+			//window.location = './event_calc_road_map';
+		})
+		evolution_calcButton.addEventListener("click", function(){
+			window.location = './evolution_calc';
+		})
+		update_listButton.addEventListener("click", function(){
+			window.location = './update_list';
+		})
+		exp_calcButton.addEventListener("click", function(){
+			alert('레벨이 71까지 오름에 따라 자료를 모으는 중입니다.');
+			//window.location = './exp_calc';
+		})
+	</script>
+</html>  
