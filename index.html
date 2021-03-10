@@ -35,7 +35,7 @@
 	<div data-role="content">
 			<!--<img style="margin: 20px auto; display: block;" src="princess.png">-->
 		<ul data-role="listview" data-inset="true">
-			<li><button id="event_calcButton">전술대항전</button></li>
+			<li><button id="PVP">전술대항전</button></li>
 			<li><button id="evolution_calcButton"></button></li>
 			<li><button id="exp_calcButton"></button></li>
 			<li><button id="update_listButton">서비스 업데이트 내역</button></li>
@@ -49,19 +49,19 @@
 		</div>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="b">
-		<h4>블루아카를 플레이 하는데 도움되는 정보를 제공합니다.</h4>
+		<h4>블루아카이브를 플레이 하는데 도움되는 정보를 제공합니다.</h4>
     </div>
   </div>
  </body>
   	<script>
-		var event_calcButton = document.getElementById("event_calcButton");
+		var PVP = document.getElementById("PVP");
 		var evolution_calcButton = document.getElementById("evolution_calcButton");
 		var update_listButton = document.getElementById("update_listButton");
 		var exp_calcButton= document.getElementById("exp_calcButton");
 
-		event_calcButton.addEventListener("click", function(){
+		PVP.addEventListener("click", function(){
 			
-			window.location = './event_calc';
+			window.location = './PVP';
 			//window.location = './event_calc_road_map';
 		})
 		evolution_calcButton.addEventListener("click", function(){
