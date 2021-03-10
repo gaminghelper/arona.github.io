@@ -132,8 +132,6 @@
             </div>
 			<div class="ui-body">
 				<fieldset class="ui-grid-a">
-				<button id="search-google-btn">검색</button>
-				<div id="showData"></div>
 					<div class="ui-block-a"><input type="reset" value="취소"/></div>
 					<div class="ui-block-b"><input type="button" value="계산" onclick="result();"/></div>
 				</fieldset>
