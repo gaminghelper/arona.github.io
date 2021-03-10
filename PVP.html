@@ -9,102 +9,158 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 	<script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 	
-	<script>
-	function result(){
-	
-	var exp = new Array(
-	100,
-	200,
-	300,
-	400,
-	500,
-	600,
-	700,
-	800,
-	900,
-	1000,
-	1100,
-	1200,
-	1400,
-	1500,
-	1800,
-	2000,
-	2100,
-	2300,
-	2400,
-	2600,
-	2800,
-	3300,
-	3500,
-	3800,
-	4200,
-	4600,
-	5000,
-	5500,
-	6000,
-	6430,
-	7100,
-	7750,
-	8400,
-	9250,
-	9570,
-	11200,
-	12420,
-	13650,
-	15000,
-	16500,
-	18310,
-	20880,
-	23620,
-	25610,
-	28550,
-	32200,
-	35950,
-	38400,
-	44050,
-	49250,
-	55800,
-	63500,
-	67200,
-	75000,
-	89900,
-	99100,
-	96100,
-	108700,
-	111800,
-	122400,
-	133000,
-	136800,
-	289200,
-	355500,
-	421800,
-	488100,
-	554400);
-	
-	
+<script src="//code.jquery.com/jquery-3.3.1.min.js">
+var jsonp = function (url) {
+    var script = window.document.createElement('script');
+    script.async = true;
+    script.src = url;
+    script.onerror = function () {
+        alert('Can not access JSONP file.')
+    };
+    var done = false;
+    script.onload = script.onreadystatechange = function () {
+        if (!done && (!this.readyState || this.readyState === 'loaded' || this.readyState ===
+                'complete')) {
+            done = true;
+            script.onload = script.onreadystatechange = null;
+            if (script.parentNode) {
+                return script.parentNode.removeChild(script);
+            }
+        }
+    };
+    window.document.getElementsByTagName('head')[0].appendChild(script);
+};
 
-	var level=Number(present_level.value)-1
-	var goal = Number(goal_level.value)-1
-	
-	var present_exp=exp[level]*Number(percent.value)*0.01
+var parse = function (data) {
+    var column_length = data.table.cols.length;
+    if (!column_length || !data.table.rows.length) {
+        return false;
+    }
+    var columns = [],
+        result = [],
+        row_length,
+        value;
+    for (var column_idx in data.table.cols) {
+        columns.push(data.table.cols[column_idx].label);
+    }
+    for (var rows_idx in data.table.rows) {
+        row_length = data.table.rows[rows_idx]['c'].length;
+        if (column_length != row_length) {
+            return false;
+        }
+        for (var row_idx in data.table.rows[rows_idx]['c']) {
+            if (!result[rows_idx]) {
+                result[rows_idx] = {};
+            }
 
-	var result_exp=0;
-	
-	for(level; level<goal;level++)
-	{
-		result_exp=result_exp+exp[level] 
-	}
-	
+            value = !!data.table.rows[rows_idx]['c'][row_idx].v ? data.table.rows[rows_idx]['c'][row_idx]
+                .v : null;
+            if (data.table.rows[rows_idx]['c'][row_idx].f !== undefined && data.table.rows[rows_idx]['c'][
+                    row_idx
+                ].v !== undefined) {
+                value = data.table.rows[rows_idx]['c'][row_idx].f;
+            }
+            result[rows_idx][columns[row_idx]] = value;
+        }
+    }
+    return result;
+};
 
-	document.getElementById("result-panel").innerHTML =
-		"필요 경험치량 : " +Number(result_exp-present_exp)+
-		"<br>경험치 던전 : "+Math.ceil(Number(result_exp-present_exp)/28242)+"회(LV70기준)"+ 
-		"<br>진화석 균열 : "+Math.ceil(Number(result_exp-present_exp)/5706)+"회(LV70기준)";
-		
-		//+"<br>예상 소모 커피량 : " + result*10
-		//+"<br>자연 커피로 파밍 시 : " + parseInt(result*10/154)+"일 소요";
-	}
-	</script>
+var query = function (sql, sheetName, callback) {
+    var myKey = '1R-8M7lQjmAWr7Lliku57e9FU-Kjcofu2mNiLU3pkmFs';
+    var url = 'https://docs.google.com/spreadsheets/d/'+myKey+'/gviz/tq?',
+        params = {
+            tq: encodeURIComponent(sql),
+            sheet: encodeURIComponent(sheetName),
+            tqx: 'responseHandler:' + callback
+        },
+        qs = [];
+    for (var key in params) {
+        qs.push(key + '=' + params[key]);
+    }
+    url += qs.join('&');
+    return jsonp(url); // Call JSONP helper function
+}
+
+var my_callback = function (data) {
+    data = parse(data); // Call data parser helper function
+  
+    //AND THEN WHATEVER YOU WANT 
+    for(var i = 0 ; i < datas.length; i++){
+        if(JSON.stringify(datas[i]) == JSON.stringify(data)) {
+            return false;
+        }
+    }
+    
+    datas.push(data);
+
+    // EXTRACT VALUE FOR HTML HEADER. 
+    var col = [];
+    for (var i = 0; i < data.length; i++) {
+        for (var key in data[i]) {
+            console.log(col.indexOf(key))
+            if (col.indexOf(key) === -1) {
+                col.push(key);
+            }
+        }
+    }
+    var table = document.querySelector("#showData table");
+    if (table === null || table == undefined) {
+        // CREATE DYNAMIC TABLE.
+        table = document.createElement("table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+        var tr = table.insertRow(-1); // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th"); // TABLE HEADER.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < data.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = data[i][col[j]];
+            }
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("showData");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    } else {
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < data.length; i++) {
+
+            var tr = table.insertRow();
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                tabCell.innerHTML = data[i][col[j]];
+            }
+        }
+    }
+
+}
+
+var datas = [];
+
+$('#search-google-btn').click(function(){
+    $('#showData').html('');
+    datas = [];
+
+    query('SELECT * WHERE B > 25 ORDER BY B DESC', '시트1', 'my_callback');
+
+});
+
+</script>
+
 </head>  
 <body>
   <div data-role="page" id="page1">
