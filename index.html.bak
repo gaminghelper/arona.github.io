@@ -29,15 +29,15 @@
 <!-- 시작 메뉴 화면 -->
   <div data-role="page" id="page0">
 	<div data-role="header" data-position="fixed" data-theme="b">
-		<h1>Arona</h1>
+		<h1>가디언테일즈 계산기</h1>
 		<a href="#page0" data-icon="home" data-iconpos="notext" class="ui-btn-right">Home</a>
 	</div>
 	<div data-role="content">
 			<!--<img style="margin: 20px auto; display: block;" src="princess.png">-->
 		<ul data-role="listview" data-inset="true">
-			<li><button id="event_calcButton">전술대항전</button></li>
-			<li><button id="evolution_calcButton"></button></li>
-			<li><button id="exp_calcButton"></button></li>
+			<li><button id="event_calcButton">이벤트 포인트 계산기</button></li>
+			<li><button id="evolution_calcButton">진화석 계산기</button></li>
+			<li><button id="exp_calcButton">경험치 계산기</button></li>
 			<li><button id="update_listButton">서비스 업데이트 내역</button></li>
 		</ul>
 		<div>
@@ -49,7 +49,7 @@
 		</div>
 	</div>
 	<div data-role="footer" data-position="fixed" data-theme="b">
-		<h4>블루아카를 플레이 하는데 도움되는 정보를 제공합니다.</h4>
+		<h4>가디언테일즈를 플레이 하는데 도움되는 정보를 제공합니다.</h4>
     </div>
   </div>
  </body>
